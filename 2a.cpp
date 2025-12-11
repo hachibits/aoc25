@@ -42,24 +42,23 @@ int main() {
       y = y * 10 + (s[i++] - '0');
     }
     a.emplace_back(x, y);
-    if (i < s.size() && s[i] == ',') {
+    if (i < (int)s.size() && s[i] == ',') {
       ++i;
     }
   }
   auto valid = [&](string x) {
-    for (int i = 0; i < x.size() - 1; i++) {
-      if (x[i] == x[i + 1]) {
-        cout << x << '\n';
-        return false;
-      }
+    if (x.size() % 2 == 1) {
+      return true;
     }
-    return true;
+    string z = x.substr(0, x.size() / 2);
+    return z + z == x ? false : true;
   };
   ll ans = 0;
   for (auto [x, y] : a) {
-    for (int i = x; i <= y; i++) {
-      if (!valid(to_string(i)))
+    for (ll i = x; i <= y; i++) {
+      if (!valid(to_string(i))) {
         ans += i;
+      }
     }
   }
   cout << ans << '\n';
