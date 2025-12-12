@@ -47,13 +47,13 @@ int main() {
     }
   }
   auto valid = [&](string x) {
-    for (int n = 1; n <= (int)x.size() / 2; n++) {
-      if (x.size() % n != 0) {
+    for (int k = 2; k <= (int)x.size(); k++) {
+      if (x.size() % k != 0) {
         continue;
       }
-      string z = x.substr(0, n);
+      string z = x.substr(0, x.size() / k);
       string t;
-      for (int j = 1; j < n; j++) {
+      for (int j = 0; j < k; j++) {
         t += z;
       }
       if (t == x) {
