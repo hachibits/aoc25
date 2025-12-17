@@ -29,28 +29,38 @@ const ll INF = (1ll << 60);
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-  auto Max = [&](const string &s) {
+  auto Max = [&](const string &s, int k) {
     int m = (int)s.size();
-    if (m < 2)
-      return 0;
-    vector<int> suf(m + 1, 0);
-    for (int i = m - 1; i >= 0; i--) {
-      int d = s[i] - '0';
-      suf[i] = max(suf[i + 1], d);
+    if (m <= k) {
+      long long x = 0;
+      for (char c : s) {
+        x = x * 10 + (c - '0');
+      }
+      return x;
     }
-    int mx = 0;
-    for (int i = 0; i + 1 < m; i++) {
-      int a = s[i] - '0';
-      int b = suf[i + 1];
-      mx = max(mx, 10 * a + b);
+    int drop = m - k;
+    string z;
+    z.reserve(m);
+    for (char c : s) {
+      while (drop > 0 && !z.empty() && z.back() < c) {
+        z.pop_back();
+        drop--;
+      }
+      z.push_back(c);
     }
-    return mx;
+    z.resize(k);
+    long long v = 0;
+    for (char c : z) {
+      v = v * 10 + (c - '0');
+    }
+    return v;
   };
   int ans = 0;
+  const int k = 12;
   string s;
   while (cin >> s) {
     //  cerr << "s='" << s << "' len=" << s.size() << "\n";
-    ans += Max(s);
+    ans += Max(s, k);
   }
   cout << ans << '\n';
   return 0;
