@@ -26,15 +26,13 @@ typedef pair<ll, ll> pll;
 const ll MOD = (ll)(1e9) + 7ll;
 const ll INF = (1ll << 60);
 
-vector<pair<int, int>> dirs{{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-
-vector<vector<int>> bfs(pair<int, int> start) {}
-
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(0);
   int H = 137;
-  vector<string> a;
+  vector<string> a(H);
+  vector<pair<int, int>> dirs{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1},
+                              {0, 1},   {1, -1}, {1, 0},  {1, 1}};
   for (int i = 0; i < H; i++) {
     cin >> a[i];
   }
@@ -42,9 +40,19 @@ int main() {
   auto inside = [&](int row, int col) {
     return 0 <= row && row < H && 0 <= col && col < W;
   };
+  auto valid = [&](int r, int c) {
+    int cnt = 0;
+    for (auto [dx, dy] : dirs) {
+      if (inside(r + dx, c + dy) && a[r + dx][c + dy] == '@') {
+        cnt++;
+      }
+    }
+    return cnt < 4 && a[r][c] == '@';
+  };
   int ans = 0;
   for (int i = 0; i < H; i++) {
     for (int j = 0; j < W; j++) {
+      ans += valid(i, j);
     }
   }
   cout << ans << '\n';
